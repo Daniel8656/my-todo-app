@@ -95,4 +95,9 @@ def main(page: ft.Page):
     
     render_tasks()
 
-ft.app(target=main, view=ft.WEB_BROWSER, host="192.168.0.106", port=8080)
+# --- 關鍵修改：讓雲端伺服器自動分配 Port，本地端換到 8888 避開衝突 ---
+if __name__ == "__main__":
+    import os # 確保最上面有 import os，如果沒有請補上
+    port = int(os.environ.get("PORT", 8888))
+    # host="0.0.0.0" 讓它不要綁死單一 IP
+    ft.app(target=main, view=ft.WEB_BROWSER, host="0.0.0.0", port=port)
